@@ -407,11 +407,11 @@
       <div class="form-row">
         <div>
           <label>Ngày bắt đầu</label>
-          <input id="ed-date-start" type="date" value="${escapeHtml(ev.date_start)}">
+          <input id="ed-date-start" type="text" data-date value="${escapeHtml(ev.date_start)}">
         </div>
         <div>
           <label>Ngày kết thúc (optional)</label>
-          <input id="ed-date-end" type="date" value="${escapeHtml(ev.date_end)}">
+          <input id="ed-date-end" type="text" data-date value="${escapeHtml(ev.date_end)}">
         </div>
         <div>
           <label>Status</label>
@@ -486,6 +486,7 @@
 
     // Attach money formatter to all data-money inputs
     if (UI.money) UI.money.attachAll('input[data-money]');
+    if (UI.dateInput) UI.dateInput.attachAll('input[data-date]');
   }
 
   function saveEvent(original, isNew) {
@@ -498,8 +499,9 @@
       code: get('ed-code').value.trim(),
       name: get('ed-name').value.trim(),
       tier: get('ed-tier').value,
-      date_start: get('ed-date-start').value,
-      date_end:   get('ed-date-end').value || get('ed-date-start').value,
+      date_start: (QPE_UI.dateInput ? QPE_UI.dateInput.read(get('ed-date-start')) : get('ed-date-start').value),
+      date_end:   (QPE_UI.dateInput ? QPE_UI.dateInput.read(get('ed-date-end'))   : get('ed-date-end').value)
+                  || (QPE_UI.dateInput ? QPE_UI.dateInput.read(get('ed-date-start')) : get('ed-date-start').value),
       buyin_listed: QPE.utils.parseVnd(get('ed-buyin').value),
       gtd_vnd: QPE.utils.parseVnd(get('ed-gtd').value),
       prizepool_actual: QPE.utils.parseVnd(get('ed-pp').value),

@@ -364,11 +364,11 @@
         </div>
         <div>
           <label>Ngày bắt đầu</label>
-          <input id="sd-date-start" type="date" value="${escapeHtml(s.date_start || '')}">
+          <input id="sd-date-start" type="text" data-date value="${escapeHtml(s.date_start || '')}">
         </div>
         <div>
           <label>Ngày kết thúc</label>
-          <input id="sd-date-end" type="date" value="${escapeHtml(s.date_end || '')}">
+          <input id="sd-date-end" type="text" data-date value="${escapeHtml(s.date_end || '')}">
         </div>
         <div>
           <label>Status</label>
@@ -441,6 +441,8 @@
       footer
     });
 
+    if (UI.dateInput) UI.dateInput.attachAll('input[data-date]');
+
     // Auto-update multiplier when tier changes (if user hasn't customized)
     setTimeout(() => {
       const tierEl = document.getElementById('sd-tier');
@@ -474,8 +476,9 @@
       name:  get('sd-name').value.trim(),
       short_name: get('sd-short').value.trim(),
       year:  parseInt(get('sd-year').value, 10) || new Date().getFullYear(),
-      date_start: get('sd-date-start').value,
-      date_end:   get('sd-date-end').value || get('sd-date-start').value,
+      date_start: (UI.dateInput ? UI.dateInput.read(get('sd-date-start')) : get('sd-date-start').value),
+      date_end:   (UI.dateInput ? UI.dateInput.read(get('sd-date-end'))   : get('sd-date-end').value)
+                  || (UI.dateInput ? UI.dateInput.read(get('sd-date-start')) : get('sd-date-start').value),
       tier:       get('sd-tier').value,
       multiplier: parseFloat(get('sd-mult').value) || 1.0,
       status:     get('sd-status').value,

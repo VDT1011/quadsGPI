@@ -117,8 +117,17 @@
     if (!s) return '';
     s = String(s).trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    // DD/MM/YYYY or D/M/YYYY (full year)
     let m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
     if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+    // DD/MM/YY (2-digit year → assume 20YY for YY < 70, else 19YY)
+    m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2})$/);
+    if (m) {
+      const yy = parseInt(m[3], 10);
+      const year = yy < 70 ? 2000 + yy : 1900 + yy;
+      return `${year}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+    }
+    // DD/MM (no year → current year)
     m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})$/);
     if (m) {
       const year = new Date().getFullYear();

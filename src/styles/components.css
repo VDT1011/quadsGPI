@@ -80,9 +80,13 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px var(--gold-bg);
   background: var(--bg-3);
 }
-input[type="number"], .num-input {
+input[type="number"], .num-input, .date-input {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+input.date-invalid {
+  border-color: var(--danger);
+  color: var(--danger);
 }
 input::placeholder, textarea::placeholder { color: var(--text-mute); }
 
