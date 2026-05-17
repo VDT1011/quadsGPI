@@ -1,0 +1,125 @@
+/**
+ * QPC POY — Tooltip system
+ *
+ * Usage:
+ *   <span class="help" data-tip="Số người vào tiền">?</span>
+ *   <button data-tip="Lưu thay đổi">...</button>
+ *
+ * Pure CSS. Position auto-flips on edge via JS if needed (future).
+ */
+
+.help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--text-mute);
+  color: var(--text-2);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: help;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-family: var(--font-sans);
+  user-select: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.help:hover { border-color: var(--gold); color: var(--gold); }
+
+[data-tip] {
+  position: relative;
+}
+
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-4);
+  color: var(--text-0);
+  font-size: 12px;
+  font-weight: 400;
+  padding: 8px 12px;
+  border-radius: var(--rd-md);
+  border: 1px solid var(--border-2);
+  white-space: normal;
+  max-width: 280px;
+  min-width: 140px;
+  width: max-content;
+  z-index: 200;
+  box-shadow: var(--sh-2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  font-family: var(--font-sans);
+}
+
+[data-tip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--bg-4);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+[data-tip]:hover::after,
+[data-tip]:hover::before {
+  opacity: 1;
+}
+
+/* Position variants */
+[data-tip-pos="bottom"]::after {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+[data-tip-pos="bottom"]::before {
+  bottom: auto;
+  top: calc(100% + 2px);
+  border-top-color: transparent;
+  border-bottom-color: var(--bg-4);
+}
+
+[data-tip-pos="right"]::after {
+  bottom: auto;
+  top: 50%;
+  left: calc(100% + 8px);
+  transform: translateY(-50%);
+}
+[data-tip-pos="right"]::before {
+  bottom: auto;
+  top: 50%;
+  left: calc(100% + 2px);
+  transform: translateY(-50%);
+  border-top-color: transparent;
+  border-right-color: var(--bg-4);
+}
+
+[data-tip-pos="left"]::after {
+  bottom: auto;
+  top: 50%;
+  right: calc(100% + 8px);
+  left: auto;
+  transform: translateY(-50%);
+}
+[data-tip-pos="left"]::before {
+  bottom: auto;
+  top: 50%;
+  right: calc(100% + 2px);
+  left: auto;
+  transform: translateY(-50%);
+  border-top-color: transparent;
+  border-left-color: var(--bg-4);
+}

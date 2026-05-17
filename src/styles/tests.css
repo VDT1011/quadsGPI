@@ -1,0 +1,122 @@
+/**
+ * QPC POY — Test runner styles (tests.html only)
+ */
+
+/* Page layout overrides for tests.html */
+body.tests-page {
+  padding: var(--sp-6) var(--sp-5) var(--sp-8);
+}
+
+.tests-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.tests-header {
+  border-bottom: 1px solid var(--border-gold);
+  padding-bottom: var(--sp-5);
+  margin-bottom: var(--sp-6);
+}
+
+.tests-header h1 {
+  margin: var(--sp-4) 0 0;
+  font-size: 28px;
+}
+
+.summary-bar {
+  background: var(--bg-1);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--rd-lg);
+  padding: var(--sp-5) var(--sp-5);
+  margin: var(--sp-5) 0 var(--sp-6);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.summary-bar .big {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.summary-bar.all-pass .big {
+  color: var(--gold);
+  text-shadow: 0 0 24px var(--gold-glow);
+}
+.summary-bar.has-fail .big { color: var(--danger); }
+
+.summary-bar .meta { color: var(--text-2); font-size: 13px; }
+.summary-bar .meta .num-cell { font-family: var(--font-mono); color: var(--text-0); }
+
+/* Suite blocks */
+.suite {
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--rd-md);
+  margin-bottom: var(--sp-3);
+  overflow: hidden;
+}
+
+.suite-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 12px 18px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border-1);
+  cursor: pointer;
+  user-select: none;
+}
+.suite-head:hover { background: #1a1a1a; }
+
+.suite-icon {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  width: 16px;
+  text-align: center;
+}
+.suite.pass .suite-icon { color: var(--gold); }
+.suite.fail .suite-icon { color: var(--danger); }
+
+.suite-name { flex: 1; font-weight: 600; font-size: 14px; }
+
+.suite-count {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+.suite.pass .suite-count { color: var(--gold); }
+.suite.fail .suite-count { color: var(--danger); }
+
+/* Individual test rows */
+.tests-list { display: none; padding: var(--sp-2) 0; }
+.suite.expanded .tests-list { display: block; }
+.suite.fail .tests-list    { display: block; }
+
+.test {
+  padding: 6px 18px 6px 50px;
+  font-size: 13px;
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+.test-icon { font-family: var(--font-mono); width: 16px; }
+.test.pass .test-icon { color: var(--gold); }
+.test.fail .test-icon { color: var(--danger); }
+
+.test-name { color: var(--text-1); }
+.test.fail .test-name { color: var(--text-0); }
+
+.test-error {
+  color: var(--danger);
+  margin-top: 4px;
+  padding-left: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tests-actions { margin: var(--sp-5) 0; }

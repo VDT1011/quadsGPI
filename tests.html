@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QPC POY · TDD Test Runner</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='32' y='46' font-family='serif' font-size='44' font-weight='700' fill='%23D4AF37' text-anchor='middle'%3EQ%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="src/styles/tokens.css">
+<link rel="stylesheet" href="src/styles/base.css">
+<link rel="stylesheet" href="src/styles/components.css">
+<link rel="stylesheet" href="src/styles/tests.css">
+</head>
+<body class="tests-page">
+
+<div class="tests-container">
+
+  <header class="tests-header">
+    <div style="color: var(--gold); font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 0.18em;">Quads Poker Championship</div>
+    <div style="color: var(--text-2); font-size: 14px; margin-top: 4px;">Player of the Year 2026</div>
+    <h1>TDD Test Runner <span class="accent">· v1.4</span></h1>
+  </header>
+
+  <div id="summary-bar" class="summary-bar">
+    <div>
+      <div id="summary-big" class="big">—</div>
+    </div>
+    <div class="meta">
+      <div>Passed: <span class="num-cell" id="summary-passed">0</span></div>
+      <div>Failed: <span class="num-cell" id="summary-failed">0</span></div>
+      <div>Total:  <span class="num-cell" id="summary-total">0</span></div>
+    </div>
+  </div>
+
+  <div class="tests-actions">
+    <button class="btn btn-primary" onclick="location.reload()">↻ Re-run tests</button>
+  </div>
+
+  <div id="suites"></div>
+
+  <footer>
+    QPC POY · TDD Test Runner · <a href="docs/SPEC.md">Spec</a> · <a href="docs/PLAN.md">Plan</a> · <a href="docs/TODO.md">Todo</a>
+  </footer>
+</div>
+
+<!-- Engine -->
+<script src="src/engine/namespace.js"></script>
+<script src="src/engine/utils.js"></script>
+<script src="src/engine/scoring.js"></script>
+<script src="src/engine/leaderboard.js"></script>
+<script src="src/engine/event.js"></script>
+<script src="src/engine/parse.js"></script>
+<script src="src/engine/validate.js"></script>
+
+<!-- Seed -->
+<script src="src/seed/qpc2026.js"></script>
+
+<!-- Test runner + suites -->
+<script src="src/tests/runner.js"></script>
+<script src="src/tests/suites/utils.test.js"></script>
+<script src="src/tests/suites/scoring.test.js"></script>
+<script src="src/tests/suites/leaderboard.test.js"></script>
+<script src="src/tests/suites/parse.test.js"></script>
+<script src="src/tests/suites/event.test.js"></script>
+<script src="src/tests/suites/validate.test.js"></script>
+<script src="src/tests/suites/seed.test.js"></script>
+
+<script>
+  // DOM render override
+  QPE_TEST.render = function () {
+    const r = QPE_TEST.results;
+    const summary = document.getElementById('summary-bar');
+    const big = document.getElementById('summary-big');
+    const allPass = (r.failed === 0 && r.total > 0);
+
+    big.textContent = r.passed + '/' + r.total;
+    document.getElementById('summary-passed').textContent = r.passed;
+    document.getElementById('summary-failed').textContent = r.failed;
+    document.getElementById('summary-total').textContent = r.total;
+
+    summary.classList.remove('all-pass', 'has-fail');
+    summary.classList.add(allPass ? 'all-pass' : 'has-fail');
+
+    const container = document.getElementById('suites');
+    container.innerHTML = '';
+
+    for (const s of r.suites) {
+      const allOk = s.passed === s.total;
+      const suiteEl = document.createElement('div');
+      suiteEl.className = 'suite ' + (allOk ? 'pass' : 'fail');
+
+      const head = document.createElement('div');
+      head.className = 'suite-head';
+      head.innerHTML = `
+        <span class="suite-icon">${allOk ? '✓' : '✗'}</span>
+        <span class="suite-name">${escapeHtml(s.name)}</span>
+        <span class="suite-count">${s.passed}/${s.total}</span>
+      `;
+      head.addEventListener('click', () => suiteEl.classList.toggle('expanded'));
+
+      const tests = document.createElement('div');
+      tests.className = 'tests-list';
+      for (const t of s.tests) {
+        const testEl = document.createElement('div');
+        testEl.className = 'test ' + (t.passed ? 'pass' : 'fail');
+        testEl.innerHTML = `
+          <span class="test-icon">${t.passed ? '✓' : '✗'}</span>
+          <div>
+            <div class="test-name">${escapeHtml(t.name)}</div>
+            ${t.error ? `<div class="test-error">${escapeHtml(t.error)}</div>` : ''}
+          </div>
+        `;
+        tests.appendChild(testEl);
+      }
+      suiteEl.appendChild(head);
+      suiteEl.appendChild(tests);
+      container.appendChild(suiteEl);
+    }
+  };
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  QPE_TEST.runAll();
+</script>
+</body>
+</html>

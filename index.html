@@ -1,0 +1,115 @@
+<!--
+  QUADS POKER CHAMPIONSHIP — PLAYER OF THE YEAR 2026
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Single-page web app. Open via browser (file:// or any local server).
+
+  ADMIN QUICK START:
+    1. Tab "Events"  → "Load QPC 2026" để seed schedule
+    2. Tab "Nhập kết quả" → chọn event → nhập PP/ITM → paste danh sách ITM
+    3. Tab "Leaderboards" → POY ranking (Overall · HR · Women's)
+    4. Tab "Backup" → Export JSON sau mỗi event
+    5. Data tự lưu LocalStorage. Import JSON để restore.
+
+  Spec & docs: docs/SPEC.md  ·  Tests: tests.html  ·  v1.4 (Phase 3)
+-->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QPC POY 2026</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Design tokens & styles (load order matters) -->
+  <link rel="stylesheet" href="src/styles/tokens.css">
+  <link rel="stylesheet" href="src/styles/base.css">
+  <link rel="stylesheet" href="src/styles/layout.css">
+  <link rel="stylesheet" href="src/styles/components.css">
+  <link rel="stylesheet" href="src/styles/modal.css">
+  <link rel="stylesheet" href="src/styles/tooltip.css">
+  <link rel="stylesheet" href="src/styles/print.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <img src="logo-bird.png" alt="Quads Hanoi Poker Club" class="brand-logo">
+    <div class="brand-text">
+      <div class="brand-club">Quads Hanoi Poker Club</div>
+      <div class="brand-tagline">Player of the Year</div>
+    </div>
+    <div class="topbar-right">
+      <span class="saved" id="saved-status">—</span>
+    </div>
+  </div>
+  <div class="tabs" id="tabs">
+    <div class="tab-group" data-group="config">
+      <div class="tab-group-header">Cấu hình</div>
+      <div class="dropdown">
+        <a class="dropdown-item" data-tab="series">🗓️ Series</a>
+        <a class="dropdown-item" data-tab="events">📅 Events</a>
+        <a class="dropdown-item" data-tab="results">📊 Kết quả</a>
+        <a class="dropdown-item" data-tab="players">👥 Players</a>
+      </div>
+    </div>
+    <div class="tab" data-tab="leaderboards">🏆 Bảng xếp hạng</div>
+    <div class="tab" data-tab="annual">🌟 Xếp hạng năm</div>
+    <div class="tab" data-tab="settings">⚙️ Cài đặt</div>
+  </div>
+</div>
+
+<main>
+  <section class="tab-content active" id="tab-series"><!-- ui/series-tab.js --></section>
+  <section class="tab-content" id="tab-events"><!-- rendered by ui/events-tab.js --></section>
+  <section class="tab-content" id="tab-results"><!-- ui/results-tab.js --></section>
+  <section class="tab-content" id="tab-leaderboards"><!-- ui/leaderboards-tab.js --></section>
+  <section class="tab-content" id="tab-annual"><!-- ui/annual-tab.js --></section>
+  <section class="tab-content" id="tab-players"><!-- ui/players-tab.js --></section>
+  <section class="tab-content" id="tab-settings"><!-- ui/settings-tab.js (includes backup section) --></section>
+</main>
+
+<footer>
+  <span>QPC POY · v2.0</span>
+</footer>
+
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Engine (order matters: namespace → modules) -->
+<script src="src/engine/namespace.js"></script>
+<script src="src/engine/utils.js"></script>
+<script src="src/engine/scoring.js"></script>
+<script src="src/engine/leaderboard.js"></script>
+<script src="src/engine/event.js"></script>
+<script src="src/engine/parse.js"></script>
+<script src="src/engine/validate.js"></script>
+<script src="src/engine/annual.js"></script>
+
+<!-- Seed data -->
+<script src="src/seed/qpc2026.js"></script>
+
+<!-- Vendor -->
+<script src="src/vendor/mini-xlsx.js"></script>
+
+<!-- UI core (state + helpers) -->
+<script src="src/ui/state.js"></script>
+<script src="src/ui/toast.js"></script>
+<script src="src/ui/modal.js"></script>
+<script src="src/ui/tabs.js"></script>
+<script src="src/ui/money-input.js"></script>
+<script src="src/ui/cloud-sync.js"></script>
+
+<!-- UI tabs -->
+<script src="src/ui/series-tab.js"></script>
+<script src="src/ui/events-tab.js"></script>
+<script src="src/ui/results-tab.js"></script>
+<script src="src/ui/leaderboards-tab.js"></script>
+<script src="src/ui/annual-tab.js"></script>
+<script src="src/ui/players-tab.js"></script>
+<script src="src/ui/settings-tab.js"></script>
+
+<!-- App entry (runs init) -->
+<script src="src/ui/app.js"></script>
+
+</body>
+</html>

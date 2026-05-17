@@ -1,0 +1,47 @@
+/**
+ * QPC POY — Print stylesheet (A4 portrait, white bg, gold accents)
+ */
+@media print {
+  :root {
+    --bg-0: #FFFFFF;
+    --bg-1: #FFFFFF;
+    --bg-2: #F8F8F8;
+    --bg-3: #FFFFFF;
+    --bg-4: #FFFFFF;
+    --text-0: #000000;
+    --text-1: #1A1A1A;
+    --text-2: #555555;
+    --text-mute: #999999;
+    --border-1: #DDDDDD;
+    --border-2: #999999;
+    --border-gold: #B8941F;
+    --gold: #B8941F;
+    --gold-bg: rgba(184, 148, 31, 0.10);
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .topbar {
+    border-bottom: 2px solid var(--gold);
+  }
+
+  /* Hide non-essential UI when printing */
+  .tabs, .toolbar, .btn, .actions, footer, .topbar-right { display: none !important; }
+  .tab-content { display: block !important; }
+
+  table {
+    page-break-inside: auto;
+  }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  @page {
+    margin: 1.5cm 1cm;
+    size: A4 portrait;
+  }
+}
